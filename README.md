@@ -1,5 +1,7 @@
 # Nerfstudio Fork for Python 3.11
 
+Why are we doing this? We want to use Python 3.11 with newer versions of PyTorch (2.7.0) and numpy (2.4+). This is not possible with the original Nerfstudio installation instructions for Nerfstudio 1.1.5. As of making this repository, the most recent stable versions are Python 3.14, PyTorch 2.10, and numpy 2.4.
+
 ## Making Nerfstudio Work with Python 3.11
 
 ### Installation Changes
@@ -133,9 +135,15 @@ tyro                      0.9.35                   pypi_0    pypi
 viser                     1.0.0                    pypi_0    pypi
 ```
 
+As a linux tip, you can check your commands so far by running the following command:
+
+```bash
+history | tail -n 25
+```
+
 ### Code changes
 
-The code changes have been implemented in this repository.
+The code changes have been implemented in this repository, and you can find the changes on GitHub.
 
 ## Original Nerfstudio README.md
 
