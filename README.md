@@ -8,9 +8,12 @@
 
 (Some Markdown formatiing to address linting errors)
 
+<!-- markdownlint-disable MD033 -->
+<!-- Inline HTML is used below for image sizing, centering, and dark/light logo switching; standard Markdown does not support these. -->
+
 <p align="center">
     <!-- community badges -->
-    <a href="https://discord.gg/uMbNqcraFc"><img src="https://dcbadge.vercel.app/api/server/uMbNqcraFc?style=plastic"/></a>
+    <a href="https://discord.gg/uMbNqcraFc"><img src="https://dcbadge.vercel.app/api/server/uMbNqcraFc?style=plastic" alt="Discord"/></a>
     <!-- doc badges -->
     <a href='https://docs.nerf.studio/'>
         <img src='https://readthedocs.com/projects/plenoptix-nerfstudio/badge/?version=latest' alt='Documentation Status' /></a>
@@ -52,7 +55,7 @@
         <img alt="colab" src="https://raw.githubusercontent.com/nerfstudio-project/nerfstudio/main/docs/_static/imgs/readme_colab.png" width="150"></a>
 </p>
 
-<img src="https://user-images.githubusercontent.com/3310961/194017985-ade69503-9d68-46a2-b518-2db1a012f090.gif" width="52%"/> <img src="https://user-images.githubusercontent.com/3310961/194020648-7e5f380c-15ca-461d-8c1c-20beb586defe.gif" width="46%"/>
+<img alt="Training demo gif 1" src="https://user-images.githubusercontent.com/3310961/194017985-ade69503-9d68-46a2-b518-2db1a012f090.gif" width="52%"/> <img alt="Training demo gif 2" src="https://user-images.githubusercontent.com/3310961/194020648-7e5f380c-15ca-461d-8c1c-20beb586defe.gif" width="46%"/>
 
 - [Quickstart](#quickstart)
 - [Learn more](#learn-more)
@@ -179,13 +182,13 @@ ns-train nerfacto --data data/nerfstudio/poster
 If everything works, you should see training progress like the following:
 
 <p align="center">
-    <img width="800" alt="image" src="https://user-images.githubusercontent.com/3310961/202766069-cadfd34f-8833-4156-88b7-ad406d688fc0.png">
+    <img width="800" alt="Training progress" src="https://user-images.githubusercontent.com/3310961/202766069-cadfd34f-8833-4156-88b7-ad406d688fc0.png">
 </p>
 
 Navigating to the link at the end of the terminal will load the webviewer. If you are running on a remote machine, you will need to port forward the websocket port (defaults to 7007).
 
 <p align="center">
-    <img width="800" alt="image" src="https://user-images.githubusercontent.com/3310961/202766653-586a0daa-466b-4140-a136-6b02f2ce2c54.png">
+    <img width="800" alt="Training viewer" src="https://user-images.githubusercontent.com/3310961/202766653-586a0daa-466b-4140-a136-6b02f2ce2c54.png">
 </p>
 
 #### Resume from checkpoint / visualize existing run
@@ -232,20 +235,20 @@ ns-export pointcloud --help
 
 Using an existing dataset is great, but likely you want to use your own data! We support various methods for using your own data. Before it can be used in nerfstudio, the camera location and orientations must be determined and then converted into our format using `ns-process-data`. We rely on external tools for this, instructions and information can be found in the documentation.
 
-| Data                                                                                          | Capture Device | Requirements                                                      | `ns-process-data` Speed |
-| --------------------------------------------------------------------------------------------- | -------------- | ----------------------------------------------------------------- | ----------------------- |
-| 📷 [Images](https://docs.nerf.studio/quickstart/custom_dataset.html#images-or-video)          | Any            | [COLMAP](https://colmap.github.io/install.html)                   | 🐢                      |
-| 📹 [Video](https://docs.nerf.studio/quickstart/custom_dataset.html#images-or-video)           | Any            | [COLMAP](https://colmap.github.io/install.html)                   | 🐢                      |
-| 🌎 [360 Data](https://docs.nerf.studio/quickstart/custom_dataset.html#data-equirectangular)   | Any            | [COLMAP](https://colmap.github.io/install.html)                   | 🐢                      |
-| 📱 [Polycam](https://docs.nerf.studio/quickstart/custom_dataset.html#polycam-capture)         | IOS with LiDAR | [Polycam App](https://poly.cam/)                                  | 🐇                      |
-| 📱 [KIRI Engine](https://docs.nerf.studio/quickstart/custom_dataset.html#kiri-engine-capture) | IOS or Android | [KIRI Engine App](https://www.kiriengine.com/)                    | 🐇                      |
-| 📱 [Record3D](https://docs.nerf.studio/quickstart/custom_dataset.html#record3d-capture)       | IOS with LiDAR | [Record3D app](https://record3d.app/)                             | 🐇                      |
-| 📱 [Spectacular AI](https://docs.nerf.studio/quickstart/custom_dataset.html#spectacularai)    | IOS, OAK, [others](https://www.spectacularai.com/mapping#supported-devices) | [App](https://apps.apple.com/us/app/spectacular-rec/id6473188128) / [`sai-cli`](https://www.spectacularai.com/mapping) | 🐇 |
-| 🖥 [Metashape](https://docs.nerf.studio/quickstart/custom_dataset.html#metashape)             | Any            | [Metashape](https://www.agisoft.com/)                             | 🐇                      |
-| 🖥 [RealityCapture](https://docs.nerf.studio/quickstart/custom_dataset.html#realitycapture)   | Any            | [RealityCapture](https://www.capturingreality.com/realitycapture) | 🐇                      |
-| 🖥 [ODM](https://docs.nerf.studio/quickstart/custom_dataset.html#odm)                         | Any            | [ODM](https://github.com/OpenDroneMap/ODM)                        | 🐇                      |
-| 👓 [Aria](https://docs.nerf.studio/quickstart/custom_dataset.html#aria)                       | Aria glasses   | [Project Aria](https://projectaria.com/)                          | 🐇                      |
-| 🛠 [Custom](https://docs.nerf.studio/quickstart/data_conventions.html)                        | Any            | Camera Poses                                                      | 🐇                      |
+| Data                                                                                          | Capture Device    | Requirements                                                      | `ns-process-data` Speed |
+| --------------------------------------------------------------------------------------------- | ----------------- | ----------------------------------------------------------------- | ----------------------- |
+| 📷 [Images](https://docs.nerf.studio/quickstart/custom_dataset.html#images-or-video)          | Any               | [COLMAP](https://colmap.github.io/install.html)                   | 🐢                      |
+| 📹 [Video](https://docs.nerf.studio/quickstart/custom_dataset.html#images-or-video)           | Any               | [COLMAP](https://colmap.github.io/install.html)                   | 🐢                      |
+| 🌎 [360 Data](https://docs.nerf.studio/quickstart/custom_dataset.html#data-equirectangular)   | Any               | [COLMAP](https://colmap.github.io/install.html)                   | 🐢                      |
+| 📱 [Polycam](https://docs.nerf.studio/quickstart/custom_dataset.html#polycam-capture)         | IOS with LiDAR    | [Polycam App](https://poly.cam/)                                  | 🐇                      |
+| 📱 [KIRI Engine](https://docs.nerf.studio/quickstart/custom_dataset.html#kiri-engine-capture) | IOS or Android    | [KIRI Engine App](https://www.kiriengine.com/)                    | 🐇                      |
+| 📱 [Record3D](https://docs.nerf.studio/quickstart/custom_dataset.html#record3d-capture)       | IOS with LiDAR    | [Record3D app](https://record3d.app/)                             | 🐇                      |
+| 📱 [Spectacular AI](https://docs.nerf.studio/quickstart/custom_dataset.html#spectacularai)    | IOS & others      | [App](https://apps.apple.com/us/app/spectacular-rec/id6473188128) | 🐇                      |
+| 🖥 [Metashape](https://docs.nerf.studio/quickstart/custom_dataset.html#metashape)              | Any               | [Metashape](https://www.agisoft.com/)                             | 🐇                      |
+| 🖥 [RealityCapture](https://docs.nerf.studio/quickstart/custom_dataset.html#realitycapture)    | Any               | [RealityCapture](https://www.capturingreality.com/realitycapture) | 🐇                      |
+| 🖥 [ODM](https://docs.nerf.studio/quickstart/custom_dataset.html#odm)                          | Any               | [ODM](https://github.com/OpenDroneMap/ODM)                        | 🐇                      |
+| 👓 [Aria](https://docs.nerf.studio/quickstart/custom_dataset.html#aria)                       | Aria glasses      | [Project Aria](https://projectaria.com/)                          | 🐇                      |
+| 🛠 [Custom](https://docs.nerf.studio/quickstart/data_conventions.html)                         | Any               | Camera Poses                                                      | 🐇                      |
 
 ### 5. Advanced Options
 
@@ -281,18 +284,18 @@ If you're interested in learning more on how to create your own pipelines, devel
 | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | [Documentation](https://docs.nerf.studio/)                                               | Full API documentation and tutorials                                                               |
 | [Viewer](https://viewer.nerf.studio/)                                                    | Home page for our web viewer                                                                       |
-| 🎒 **Educational**                                                                       |
+| 🎒 **Educational**                                                                       |                                                                                                    |
 | [Model Descriptions](https://docs.nerf.studio/nerfology/methods/index.html)              | Description of all the models supported by nerfstudio and explanations of component parts.         |
 | [Component Descriptions](https://docs.nerf.studio/nerfology/model_components/index.html) | Interactive notebooks that explain notable/commonly used modules in various models.                |
-| 🏃 **Tutorials**                                                                         |
+| 🏃 **Tutorials**                                                                         |                                                                                                    |
 | [Getting Started](https://docs.nerf.studio/quickstart/installation.html)                 | A more in-depth guide on how to get started with nerfstudio from installation to contributing.     |
 | [Using the Viewer](https://docs.nerf.studio/quickstart/viewer_quickstart.html)           | A quick demo video on how to navigate the viewer.                                                  |
 | [Using Record3D](https://www.youtube.com/watch?v=XwKq7qDQCQk)                            | Demo video on how to run nerfstudio without using COLMAP.                                          |
-| 💻 **For Developers**                                                                    |
+| 💻 **For Developers**                                                                    |                                                                                                    |
 | [Creating pipelines](https://docs.nerf.studio/developer_guides/pipelines/index.html)     | Learn how to easily build new neural rendering pipelines by using and/or implementing new modules. |
 | [Creating datasets](https://docs.nerf.studio/quickstart/custom_dataset.html)             | Have a new dataset? Learn how to run it with nerfstudio.                                           |
 | [Contributing](https://docs.nerf.studio/reference/contributing.html)                     | Walk-through for how you can start contributing now.                                               |
-| 💖 **Community**                                                                         |
+| 💖 **Community**                                                                         |                                                                                                    |
 | [Discord](https://discord.gg/uMbNqcraFc)                                                 | Join our community to discuss more. We would love to hear from you!                                |
 | [Twitter](https://twitter.com/nerfstudioteam)                                            | Follow us on Twitter @nerfstudioteam to see cool updates and announcements                         |
 | [Feedback Form](TODO)                                                                    | We welcome any feedback! This is our chance to learn what you all are using Nerfstudio for.        |
@@ -333,7 +336,7 @@ We provide the following support structures to make life easier for getting star
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/3310961/199083722-881a2372-62c1-4255-8521-31a95a721851.png" />
 <!-- /pypi-strip -->
-    <img alt="tyro logo" src="https://user-images.githubusercontent.com/3310961/199084143-0d63eb40-3f35-48d2-a9d5-78d1d60b7d66.png" width="250px" />
+    <img alt="nerfacc logo" src="https://user-images.githubusercontent.com/3310961/199084143-0d63eb40-3f35-48d2-a9d5-78d1d60b7d66.png" width="250px" />
 <!-- pypi-strip -->
 </picture>
 <!-- /pypi-strip -->
@@ -366,5 +369,7 @@ If you use this library or find the documentation useful for your research, plea
 ## Contributors
 
 <a href="https://github.com/nerfstudio-project/nerfstudio/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=nerfstudio-project/nerfstudio" />
+  <img alt="Contributors" src="https://contrib.rocks/image?repo=nerfstudio-project/nerfstudio" />
 </a>
+
+<!-- markdownlint-enable MD033 -->
