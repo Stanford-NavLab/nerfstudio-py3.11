@@ -4,9 +4,142 @@
 
 ### Installation Changes
 
+We need to change the installation instructions to use Python 3.11. Note that the instructions below are for Linux.
+
+#### Conda Environment 🐍
+
+Create a new conda environment with Python 3.11. Note you can name it whatever you want, but here we use `nerfstudio-py3.11` to differentiate it from the original Nerfstudio environment.
+
+```bash
+conda create --name nerfstudio-py3.11 -y python=3.11
+conda activate nerfstudio-py3.11
+```
+
+At this point, the conda environment should be basically empty. You can update pip now in case you have not done so already. *Do not update `setuptools` to a version greater than 80*. The setuptools versions after 80 do not support the `pkg_resources` module. You will know if this is a problem only later when you try to install `tiny-cuda-nn`.
+
+```bash
+python -m pip install --upgrade pip
+```
+
+#### PyTorch 🔥
+
+We we torch 2.7 rather than the Nerfstudio default of 2.1.2. However, we still use CUDA 11.8. Upgrading CUDA may be beneficial in the future.
+
+```bash
+pip install torch==2.7.0+cu118 torchvision==0.22.0+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+```
+
+As before, the CUDA toolkit is required for building tiny-cuda-nn.
+
+```bash
+conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
+```
+
+Now we can install tiny-cuda-nn. It is *`critical`* that we use the `--no-build-isolation` flag. To the best of our knowledge, this is a result of the compatibility between the `tiny-cuda-nn` and `setuptools` versions (i.e., requiring the `pkg_resources` module noted above). If it is not working, we recommend removing the conda environment and trying again with a fresh environment. If it is still not working, we recommend downgrading `setuptools` to a version less than 80.
+
+```bash
+pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch --no-build-isolation
+```
+
+You can check that it is working by running the following command:
+
+```bash
+python -c "import tinycudann as tcnn; print('tcnn imported')"
+```
+
+If you really want to test that `tiny-cuda-nn` is working and connects to your GPU and `torch`, try running the following command:
+
+```bash
+python -c "import torch; import tinycudann as tcnn; n_input_dims = 3; config = {'encoding': {'otype': 'HashGrid', 'n_levels': 16, 'n_features_per_level': 2, 'log2_hashmap_size': 19, 'base_resolution': 16, 'per_level_scale': 2.0}, 'network': {'otype': 'FullyFusedMLP', 'activation': 'ReLU', 'output_activation': 'None', 'n_neurons': 64, 'n_hidden_layers': 2}}; model = tcnn.NetworkWithInputEncoding(n_input_dims, 3, config['encoding'], config['network']).cuda(); print('Successfully initialized TCNN HashGrid + MLP on GPU!')"
+```
+
+#### Nerfstudio 🎥
+
+It is finally time to install Nerfstudio.
+
+```bash
+git clone https://github.com/Stanford-NavLab/nerfstudio-py3.11.git
+cd nerfstudio-py3.11
+```
+
+Now that `tiny-cuda-nn` is installed, we can update the setuptools version to a more modern version, as needed for the `nerfstudio` installation. We recommend installing as editable as we have changed some files to update to Python 3.11 and newer versions of `torch` and `numpy`.
+
+```bash
+pip install --upgrade pip setuptools
+pip install -e .
+```
+
+We highly recommend using the CLI, so install the CLI by running the following command:
+
+```bash
+ns-install-cli
+```
+
+You can check that the main installation is working by running the following command, but you are not in the clear yet:
+
+```bash
+ns-train --help
+```
+
+Now is the true test: can you train a splatfacto model?
+
+```bash
+ns-train splatfacto --data <whatever your data is>
+```
+
+In the process, `gsplat` will need to build its CUDA code. This will take a couple minutes. If the model starts training, you are in the clear (but you can check the list below)!
+
+If you encounter an error with the `gsplat` build, you likely need to check that the cuda version is 11.8. You can check this by running the following command:
+
+```bash
+nvcc --version
+```
+
+or with
+
+```bash
+conda list
+```
+
+If you encounter an error with `ninja`, then the issue is likely with the `tiny-cuda-nn` build. You probably want to start over with a fresh environment.
+
+As a final sanity check, below are the key packages and their versions:
+
+```bash
+conda list | grep -E "python |cuda-compiler|torch|numpy|gsplat|viser|tyro|open"
+```
+
+Should output something like the list below:
+
+```bash
+_openmp_mutex             5.1                       1_gnu  
+cuda-compiler             11.8.0                        0    nvidia/label/cuda-11.8.0
+gitpython                 3.1.46                   pypi_0    pypi
+gsplat                    1.4.0                    pypi_0    pypi
+ipython                   9.10.0                   pypi_0    pypi
+msgpack-numpy             0.4.8                    pypi_0    pypi
+numpy                     2.4.2                    pypi_0    pypi
+open3d                    0.19.0                   pypi_0    pypi
+opencv-python             4.13.0.92                pypi_0    pypi
+opencv-python-headless    4.10.0.84                pypi_0    pypi
+openssl                   3.0.19               h1b28b03_0  
+python                    3.11.14              h6fa692b_0  
+pytorch-msssim            1.0.0                    pypi_0    pypi
+torch                     2.7.0+cu118              pypi_0    pypi
+torch-fidelity            0.4.0                    pypi_0    pypi
+torchmetrics              1.8.2                    pypi_0    pypi
+torchvision               0.22.0+cu118             pypi_0    pypi
+tyro                      0.9.35                   pypi_0    pypi
+viser                     1.0.0                    pypi_0    pypi
+```
+
+### Code changes
+
+The code changes have been implemented in this repository.
+
 ## Original Nerfstudio README.md
 
-(Some Markdown formatiing to address linting errors)
+(Some Markdown formatting to address linting errors)
 
 <!-- markdownlint-disable MD033 -->
 <!-- Inline HTML is used below for image sizing, centering, and dark/light logo switching; standard Markdown does not support these. -->
@@ -63,7 +196,7 @@
 
 ## About
 
-_It’s as simple as plug and play with nerfstudio!_
+*It's as simple as plug and play with nerfstudio!*
 
 Nerfstudio provides a simple API that allows for a simplified end-to-end process of creating, training, and testing NeRFs.
 The library supports a **more interpretable implementation of NeRFs by modularizing each component.**
@@ -170,7 +303,7 @@ See [Installation](https://github.com/nerfstudio-project/nerfstudio/blob/main/do
 
 ### 2. Training your first model :star2:
 
-The following will train a _nerfacto_ model, our recommended model for real world scenes.
+The following will train a *nerfacto* model, our recommended model for real world scenes.
 
 ```bash
 # Download some test data:
