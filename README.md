@@ -145,6 +145,9 @@ history | tail -n 25
 
 The code changes have been implemented in this repository, and you can find the changes on GitHub.
 
+---
+---
+
 ## Original Nerfstudio README.md
 
 (Some Markdown formatting to address linting errors)
